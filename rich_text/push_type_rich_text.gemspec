@@ -6,10 +6,10 @@ require File.expand_path('../../lib/push_type/version', __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
-  s.name          = 'push_type_richtext'
+  s.name          = 'push_type_rich_text'
   s.version       = PushType::VERSION
-  s.summary       = %q{Provides a richtext editor to the PushType content management system using Froala.}
-  s.description   = %q{Provides a richtext editor to the PushType content management system using Froala. Requires push_type_admin.}
+  s.summary       = %q{Provides a rich text editor to the PushType content management system using Froala.}
+  s.description   = %q{Provides a rich text editor to the PushType content management system using Froala. Requires push_type_admin.}
 
   s.files         = Dir['{app,config,db,lib,vendor}/**/*', 'README.md', 'LICENSE.md']
   s.require_paths = %w(lib)

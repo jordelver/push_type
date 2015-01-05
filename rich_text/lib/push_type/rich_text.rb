@@ -7,8 +7,8 @@ require 'font-awesome-rails'
 
 module PushType
 
-  module Richtext
+  module RichText
   end
 end
 
-require 'push_type/richtext/engine'
+require 'push_type/rich_text/engine'

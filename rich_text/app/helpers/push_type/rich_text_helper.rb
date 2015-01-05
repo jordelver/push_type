@@ -1,4 +1,4 @@
 module PushType
-  module RichtextHelper
+  module RichTextHelper
   end
 end

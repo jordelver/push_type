@@ -1,8 +1,8 @@
 module PushType
-  module Richtext
+  module RichText
     class Engine < ::Rails::Engine
       isolate_namespace PushType
-      engine_name 'push_type_richtext'
+      engine_name 'push_type_rich_text'
 
       config.generators do |g|
         g.assets false
