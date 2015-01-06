@@ -8,6 +8,15 @@ module PushType
 
       config.home_node = 'home'
 
+      AdminAssets = Struct.new(:javascripts, :stylesheets) do
+        def register(lib)
+          javascripts << lib
+          stylesheets << lib
+        end
+      end
+
+      config.admin_assets = AdminAssets.new [], []
+
       config.generators do |g|
           g.assets false
           g.helper false
