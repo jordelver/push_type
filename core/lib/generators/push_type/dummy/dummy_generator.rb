@@ -8,17 +8,14 @@ module PushType
 
     class_option :lib_name, default: 'push_type_core'
     class_option :path,     default: 'test/dummy'
+    class_option :skip_javascript, type: :boolean, default: false
 
     def clean_up_test_dummy
       remove_dir(dummy_path) if File.directory?(dummy_path)
     end
 
-    PASSTHROUGH_OPTIONS = [
-      :skip_active_record, :skip_javascript, :database, :javascript, :quiet, :pretend, :force, :skip
-    ]
-
     def generate_test_dummy
-      opts = {}.merge(options).slice(*PASSTHROUGH_OPTIONS)
+      opts = {}.merge options
       opts[:database]       = 'postgresql'
       opts[:force]          = true
       opts[:skip_git]       = true
@@ -26,7 +23,7 @@ module PushType
       opts[:skip_gemfile]   = true
       opts[:skip_bundle]    = true
 
-      puts "Generating dummy Rails application... (#{options[:lib_name]})"
+      say "Generating dummy Rails application... (#{options[:lib_name]})"
       invoke Rails::Generators::AppGenerator, [ File.expand_path(dummy_path, destination_root) ], opts
     end
 

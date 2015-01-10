@@ -8,6 +8,12 @@ module PushType
 
       config.home_node = 'home'
 
+      config.media_styles = {
+        large:    '1024x1024>',
+        medium:   '512x512>',
+        small:    '256x256>'
+      }
+
       AdminAssets = Struct.new(:javascripts, :stylesheets) do
         def register(lib)
           javascripts << lib
