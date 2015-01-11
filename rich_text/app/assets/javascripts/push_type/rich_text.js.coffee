@@ -13,6 +13,7 @@
 #= require froala_editor.min
 #= require plugins/lists.min
 #= require plugins/file_upload.min
+#= require plugins/media_manager.min
 #= require plugins/video.min
 #= require_self
 #= require_tree .
@@ -21,14 +22,14 @@
 $(document).on 'ready page:load', ->
 
   $('textarea.froala', '.rich_text').editable
-    inlineMode:   false
-    height:       400
-    buttons:      ['bold', 'italic', 'underline', 'sep', 'formatBlock', 'align', 'insertOrderedList', 'insertUnorderedList', 'sep', 'createLink', 'insertImage', 'uploadFile', 'insertVideo', 'table', 'sep', 'removeFormat', 'undo', 'redo', 'sep' ,'html']
+    inlineMode:         false
+    buttons:            ['bold', 'italic', 'underline', 'sep', 'formatBlock', 'align', 'insertOrderedList', 'insertUnorderedList', 'sep', 'createLink', 'insertImage', 'uploadFile', 'insertVideo', 'table', 'sep', 'removeFormat', 'undo', 'redo', 'sep' ,'html']
     blockTags:
       n:  'Normal'
       h1: 'Heading 1'
       h2: 'Heading 2'
-    theme:        'pt'
+    height:             400
+    theme:              'pt'
 
   $('textarea.froala', '.rich_text').on 'editable.focus', (e, editor) ->
     editor.$box.addClass 'focus'
