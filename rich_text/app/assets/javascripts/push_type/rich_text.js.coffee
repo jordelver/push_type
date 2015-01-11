@@ -22,17 +22,23 @@
 $(document).on 'ready page:load', ->
 
   $('textarea.froala', '.rich_text').editable
-    inlineMode:         false
-    buttons:            ['bold', 'italic', 'underline', 'sep', 'formatBlock', 'align', 'insertOrderedList', 'insertUnorderedList', 'sep', 'createLink', 'insertImage', 'uploadFile', 'insertVideo', 'table', 'sep', 'removeFormat', 'undo', 'redo', 'sep' ,'html']
+    inlineMode:       false
+    buttons:          ['bold', 'italic', 'underline', 'sep', 'formatBlock', 'align', 'insertOrderedList', 'insertUnorderedList', 'sep', 'createLink', 'insertImage', 'uploadFile', 'insertVideo', 'table', 'sep', 'removeFormat', 'undo', 'redo', 'sep' ,'html']
     blockTags:
       n:  'Normal'
       h1: 'Heading 1'
       h2: 'Heading 2'
-    height:             400
-    theme:              'pt'
+    height:           400
+    imagesLoadURL:    '/push_type/froala_media/images'
+    imageUploadURL:   '/push_type/froala_media'
+    imageUploadParam: 'asset[file]'
+    theme:            'pt'
 
   $('textarea.froala', '.rich_text').on 'editable.focus', (e, editor) ->
     editor.$box.addClass 'focus'
 
   $('textarea.froala', '.rich_text').on 'editable.blur', (e, editor) ->
     editor.$box.removeClass 'focus'
+
+  $('textarea.froala', '.rich_text').on 'editable.imageError', (e, editor, error) ->
+    alert error.message
