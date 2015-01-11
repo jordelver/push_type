@@ -39,10 +39,12 @@ module PushType
 
     def asset_to_hash(a)
       {
-        src: main_app.media_url(a.file_uid, style: '300x300#'),
+        src: a.image? ? main_app.media_url(a.file_uid, style: '300x300#') : ActionController::Base.helpers.image_url("push_type/icon-file-#{ a.kind }.png"),
         info: {
           id:    a.id,
-          title: a.description
+          kind:  a.kind,
+          src:   main_app.media_url(a.file_uid),
+          title: a.description_or_file_name
         }
       }
     end

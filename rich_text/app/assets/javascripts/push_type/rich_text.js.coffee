@@ -29,6 +29,9 @@ $(document).on 'ready page:load', ->
       h1: 'Heading 1'
       h2: 'Heading 2'
     height:           400
+    filesLoadURL:     '/push_type/froala_media/files'
+    fileUploadURL:    '/push_type/froala_media'
+    fileUploadParam: 'asset[file]'
     imagesLoadURL:    '/push_type/froala_media/images'
     imageUploadURL:   '/push_type/froala_media'
     imageUploadParam: 'asset[file]'

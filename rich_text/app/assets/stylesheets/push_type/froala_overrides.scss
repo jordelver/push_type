@@ -31,3 +31,9 @@
 .froala-editor .froala-popup div.f-popup-line select:focus {
   border: solid 1px #54acd2;
 }
+
+.froala-modal .f-modal-wrapper div.f-image-list div.f-media-title {
+  height: 48px;
+  margin-bottom: 0;
+  overflow: hidden;
+}

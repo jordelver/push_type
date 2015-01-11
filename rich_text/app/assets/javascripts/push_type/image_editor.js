@@ -165,13 +165,12 @@ $.Editable.prototype.writeImage = function (image_link, sanitize) {
     }
   }
 
-  var image_title, image_data = this.$media_images.find('img[src="'+ image_link +'"]').data();
+  var image_title, image_data = this.$media_images.find('img[data-src="'+ image_link +'"]').data();
   if ( image_data != 'undefined' && 'title' in image_data ) {
     image_title = image_data.title;
   } else {
     image_title = this.options.defaultImageTitle;
   }
-  image_link = image_link.split('?')[0] + '?style=original';
 
   var img = new Image();
   img.onerror = $.proxy(function () {
