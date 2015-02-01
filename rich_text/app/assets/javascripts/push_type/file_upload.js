@@ -28,7 +28,6 @@ $.Editable.prototype.fileUploadHTML = function () {
  * Build file upload.
  */
 $.Editable.prototype.buildFileUpload = function () {
-  console.log('xxx');
   // Add file wrapper to editor.
   this.$file_wrapper = $(this.fileUploadHTML());
   this.$popup_editor.append(this.$file_wrapper);

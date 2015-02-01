@@ -1,15 +1,29 @@
 $.Editable.prototype.showMediaManager = function (kind) {
+  this.$image_modal.data('context', kind);
   this.$image_modal.find('h4 span').text('Manage '+ kind +'s');
   this.$image_modal.show();
   this.$overlay.show();
-  if (kind == 'file') {
-    this.loadFiles();
-  } else {
-    this.loadImages();
-  }
+  this.loadImages();
   $('body').css('overflow','hidden');
 }
 
+$.Editable.prototype.mediaModalHTML = function () {
+  var html = '<div class="froala-modal"><div class="f-modal-wrapper"><h4><span data-text="true">Manage images</span><i title="Cancel" class="fa fa-times" id="f-modal-close-' + this._id + '"></i></h4>'
+
+  html += '<img class="f-preloader" id="f-preloader-' + this._id + '" alt="Loading..." src="' + this.options.preloaderSrc + '" style="display: none;">';
+
+  if (WYSIWYGModernizr.touch) {
+    html += '<div class="f-image-list f-touch" id="f-image-list-' + this._id + '"></div>';
+  } else {
+    html += '<div class="f-image-list" id="f-image-list-' + this._id + '"></div>';
+  }
+
+  html += '<div class="pagination-centered" id="f-pagination-' + this._id + '"></div>';
+
+  html += '</div></div>';
+
+  return html;
+}
 
 $.Editable.prototype.buildMediaManager = function () {
   this.$image_modal = $(this.mediaModalHTML()).appendTo('body');
@@ -84,17 +98,50 @@ $.Editable.prototype.buildMediaManager = function () {
   this.hideMediaManager();
 };
 
+$.Editable.prototype.initPagination = function(data) {
+  var mm = this;
+  this.$image_modal.find('#f-pagination-' + this._id).pagination({
+    pages: data.total_pages,
+    currentPage: data.current_page,
+    hrefTextPrefix: '#/media/page-',
+    onPageClick: function(page, e) {
+      e.preventDefault();
+      mm.loadImages(page);
+    }
+  });
+}
+
 // Load images from server.
-$.Editable.prototype.loadFiles = function () {
+$.Editable.prototype.loadImages = function (page) {
+  var isPaginated = (typeof page !== 'undefined');
+
   this.$preloader.show();
   this.$media_images.empty();
 
-  if (this.options.filesLoadURL) {
+  if (this.$image_modal.data('context') == 'file') {
+    ajax = {
+      url: this.options.filesLoadURL,
+      opts: this.options.filesLoadParams
+    }
+  } else {
+    ajax = {
+      url: this.options.imagesLoadURL,
+      opts: this.options.imagesLoadParams
+    }
+  }
+  if (isPaginated) {
+    ajax.opts.page = page;
+  }
+
+  if (ajax.url) {
     $.support.cors = true;
-    $.getJSON(this.options.filesLoadURL, this.options.imagesLoadParams, $.proxy(function (data) {
+    $.getJSON(ajax.url, ajax.opts, $.proxy(function (data) {
       // data
       this.triggerEvent('imagesLoaded', [data], false);
-      this.processLoadedImages(data);
+      this.processLoadedImages(data.assets);
+      if (!isPaginated && data.total_pages > 1) {
+        this.initPagination(data);
+      }
       this.$preloader.hide();
     }, this))
       .fail($.proxy(function () {
@@ -120,7 +167,7 @@ $.Editable.prototype.loadImage = function (src, info) {
       $img.attr('data-' + k, info[k]);
     }
 
-    $li.append($img).append('<div class="f-media-title">'+ info.title +'</div>');
+    $li.append($img).append('<span class="f-media-title">'+ info.title +'</span>');
     $li.removeClass('f-empty');
     this.$media_images.hide();
     this.$media_images.show();

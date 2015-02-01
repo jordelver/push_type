@@ -3,38 +3,49 @@ require_dependency "push_type/admin_controller"
 module PushType
   class FroalaMediaController < AdminController
 
+    before_filter :load_assets, only: :index
     before_filter :build_asset, only: :create
 
     respond_to :json
 
-    def images
-      respond_with PushType::Asset.image.all.map { |a| asset_to_hash(a) }
-    end
-
-    def files
-      respond_with PushType::Asset.not_image.all.map { |a| asset_to_hash(a) }
+    def index
+      respond_with assets_to_hash
     end
 
     def create
-      respond_with save_asset!, location: false
+      respond_with save_asset, location: false
     end
 
     private
 
-    def asset_params
-      params.fetch(:asset, {}).permit(:file)
+    def load_assets
+      query = PushType::Asset.not_trash.page(params[:page]).per(12)
+      @assets = params[:filter] == 'image' ? query.image : query.not_image
     end
 
     def build_asset
       @asset = PushType::Asset.new asset_params.merge(uploader: push_type_user)
     end
 
-    def save_asset!
+    def asset_params
+      params.fetch(:asset, {}).permit(:file)
+    end
+
+    def save_asset
       if @asset.save
         { link: main_app.media_url(@asset.file_uid) }
       else
         { error: @asset.errors.full_messages.first }
       end
+    end
+
+    def assets_to_hash
+      {
+        assets: @assets.map { |a| asset_to_hash(a) },
+        current_page: @assets.current_page,
+        total_pages: @assets.total_pages
+      }
+      
     end
 
     def asset_to_hash(a)

@@ -15,6 +15,7 @@
 #= require plugins/file_upload.min
 #= require plugins/media_manager.min
 #= require plugins/video.min
+#= require jquery.simplePagination
 #= require_self
 #= require_tree .
 
@@ -29,10 +30,12 @@ $(document).on 'ready page:load', ->
       h1: 'Heading 1'
       h2: 'Heading 2'
     height:           400
-    filesLoadURL:     '/push_type/froala_media/files'
+    filesLoadURL:     '/push_type/froala_media'
+    filesLoadParams:  { filter: 'file' }
     fileUploadURL:    '/push_type/froala_media'
     fileUploadParam: 'asset[file]'
-    imagesLoadURL:    '/push_type/froala_media/images'
+    imagesLoadURL:    '/push_type/froala_media'
+    imagesLoadParams: { filter: 'image' }
     imageUploadURL:   '/push_type/froala_media'
     imageUploadParam: 'asset[file]'
     theme:            'pt'
